@@ -23,6 +23,20 @@ func (u *OrderRouterImpl) post() {
 
 }
 
+func (u *OrderRouterImpl) get() {
+	u.routerGroup.GET("/get", u.orderHandler.GetOrderByUserIdHdl)
+}
+func (u *OrderRouterImpl) put() {
+	u.routerGroup.PUT("/:id", u.orderHandler.UpdateOrderByIdHdl)
+}
+
+func (u *OrderRouterImpl) delete() {
+	u.routerGroup.DELETE("/:id", u.orderHandler.DeleteOrderByIdHdl)
+
+}
 func (u *OrderRouterImpl) Routers() {
 	u.post()
+	u.get()
+	u.put()
+	u.delete()
 }
