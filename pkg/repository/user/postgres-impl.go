@@ -23,3 +23,12 @@ func (u *UserRepoImpl) GetUserByEmail(ctx context.Context, email string) (result
 	}
 	return result, err
 }
+
+func (u *UserRepoImpl) InsertUser(ctx context.Context, insertedUser *user.User) (err error) {
+	db := u.pgCln.GetClient()
+	result := db.Model(&user.User{}).Create(&insertedUser)
+	if err := result.Error; err != nil {
+		return err
+	}
+	return err
+}

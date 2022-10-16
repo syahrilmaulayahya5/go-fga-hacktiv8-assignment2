@@ -34,4 +34,32 @@ func (u *UserHdlImpl) GetUserByEmailHdl(ctx *gin.Context) {
 	}
 	response := message.NewSuccessResponse(result)
 	ctx.JSONP(http.StatusOK, response)
+
+}
+
+func (u *UserHdlImpl) InsertUserHdl(ctx *gin.Context) {
+
+	var user user.User
+
+	if err := ctx.ShouldBind(&user); err != nil {
+		response := message.NewErrorResponse(http.StatusBadRequest, "failed to bind payload")
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, response)
+		return
+	}
+
+	if user.Email == "" {
+		response := message.NewErrorResponse(http.StatusBadRequest, "email should not be empty")
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, response)
+		return
+	}
+
+	result, err := u.userUsecase.InsertUserSvc(ctx, user)
+	if err != nil {
+		response := message.NewErrorResponse(http.StatusBadRequest, "email already registered")
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, response)
+		return
+	}
+
+	response := message.NewSuccessResponse(result)
+	ctx.JSONP(http.StatusOK, response)
 }

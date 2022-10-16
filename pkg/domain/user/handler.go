@@ -6,4 +6,5 @@ import (
 
 type UserHandler interface {
 	GetUserByEmailHdl(ctx *gin.Context)
+	InsertUserHdl(ctx *gin.Context)
 }

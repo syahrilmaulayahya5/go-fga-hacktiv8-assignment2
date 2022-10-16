@@ -29,3 +29,13 @@ func (u *UserUsecaseImpl) GetUserByEmailSvc(ctx context.Context, email string) (
 
 	return result, err
 }
+
+func (u *UserUsecaseImpl) InsertUserSvc(ctx context.Context, input user.User) (result user.User, err error) {
+
+	err = u.userRepo.InsertUser(ctx, &input)
+
+	if err != nil {
+		return user.User{}, err
+	}
+	return input, err
+}
